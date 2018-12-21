@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Frontend Map Client</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <!-- bmatovusr@gmail.com API Key... -->
+    <!-- https://stackoverflow.com/q/51685490/2732184 -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDd5uXksh8E0rJskAReP5_jtex-K99G1Zk"></script>
+    <script type="text/javascript">
+      var mapOptions = {
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        mapTypeControl: false,
+        streetview : false,
+        scrollwheel: true,
+        gestureHandling: 'greedy',
+        zoom: 12
+      };
+
+      var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+      // https://stackoverflow.com/a/16348551
+      google.maps.event.trigger(map, 'resize');
+
+      var locations = [
+        {
+          "latitude": -4.0407178,
+          "longitude": 39.6329365
+        },
+        {
+          "latitude": -3.9938505,
+          "longitude": 39.5689295
+        }
+      ];
+     
+      locations.forEach(function (location) {
+        var latLng = new google.maps.LatLng(location.latitude, location.longitude);
+
+        var marker = new google.maps.Marker({
+          position: latLng,
+          map: map
+        });
+
+        map.panTo(marker.getPosition());
+      });
+
+    </script>
+  </body>
+</html>
