@@ -36,8 +36,11 @@ io.on('connection', function(socket) {
 
 var client = redis.createClient("redis://127.0.0.1:6379");
 
-client.subscribe('device_channel');
+// Subscribe to the 'device' channel
+client.subscribe('device');
 
-client.on("message", function(channel, data) {
-  console.log("Channel: %s -> %s", channel, data);
+client.on("message", function(channel, log) {
+  var log = JSON.parse(log);
+  console.log("%s -> %s @[%s, %s]", channel, log.event, log.latitude, log.longitude);
+  io.sockets.emit('log', log);
 });

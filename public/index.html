@@ -22,7 +22,8 @@
     <div id="map"></div>
     <!-- bmatovusr@gmail.com API Key... -->
     <!-- https://stackoverflow.com/q/51685490/2732184 -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDd5uXksh8E0rJskAReP5_jtex-K99G1Zk"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=API_KEY"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
     <script type="text/javascript">
       var mapOptions = {
         mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -38,18 +39,7 @@
       // https://stackoverflow.com/a/16348551
       google.maps.event.trigger(map, 'resize');
 
-      var locations = [
-        {
-          "latitude": -4.0407178,
-          "longitude": 39.6329365
-        },
-        {
-          "latitude": -3.9938505,
-          "longitude": 39.5689295
-        }
-      ];
-     
-      locations.forEach(function (location) {
+      function showOnMap(location) {
         var latLng = new google.maps.LatLng(location.latitude, location.longitude);
 
         var marker = new google.maps.Marker({
@@ -58,7 +48,19 @@
         });
 
         map.panTo(marker.getPosition());
+      }
+
+      // socket.io ....................................
+      // Connect to server...
+      var socket = io.connect('http://localhost:4000');
+
+      // Listen to 'log' transmissions
+      socket.on('log', function(location) {
+        console.log(location.event);
+        showOnMap(location);
       });
+      
+      // ...............................................
 
     </script>
   </body>

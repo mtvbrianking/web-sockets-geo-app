@@ -38,8 +38,8 @@ try {
 
     print date('Y-m-d H:i:s').' => '.$deviceLog['event'].PHP_EOL;
 
-    // Send to NodeJS Socket.IO
-    $redis->publish('device_channel', json_encode($deviceLog));
+    // Send to NodeJS Socket.IO via 'device' channel
+    $redis->publish('device', json_encode($deviceLog));
 
     // restart counter...
     $start_at = strtotime($deviceLog['reported_at']);
